@@ -30,12 +30,12 @@ type news struct {
 }
 
 type newsItem struct {
-	Author      string `json:author`
-	Title       string `json:title`
-	Description string `json:description`
-	Url         string `json:url`
-	UrlToImage  string `json:urlToImage`
-	PublishedAt string `json:publishedAt`
+	Author      string `json:"author"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Url         string `json:"url"`
+	UrlToImage  string `json:"urlToImage"`
+	PublishedAt string `json:"publishedAt"`
 }
 
 func main() {
