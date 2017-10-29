@@ -1,26 +1,39 @@
 package main
 
 import (
+	"log"
+	_ "os"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"html/template"
 )
 
 var respString string = ""
+var cachedNews news
 
 const url string = "https://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey=87295cd4d5d4415c9cb4896590ccf2c3"
 
 func handleRoot(resp http.ResponseWriter, req *http.Request) {
-
-	fmt.Fprintf(resp, respString)
+	
+	renderTemplate("templates/home.html", cachedNews, resp)
 }
 
-func processString(item newsItem) string {
-	return fmt.Sprintf(`<div>
-			<a href = "%s">%s</a>
-		</div>`, item.Url, item.Title)
+
+func renderTemplate(fileName string, data interface{}, resp http.ResponseWriter) {
+	tmpl, err := template.ParseFiles(fileName)
+
+	if err != nil {
+		log.Fatalln("Error in Reading Template %s %s", fileName, err)
+	}
+	e := tmpl.Execute(resp, data)
+	if e != nil {
+		log.Fatalln("Failed to Execute Tempalte")
+	}
+
 }
+
 
 type news struct {
 	Status   string     `json:"status"`
@@ -50,12 +63,14 @@ func main() {
 		return
 	}
 
-	for _, item := range newsResults.Articles {
-		respString += processString(item)
-	}
 	resp.Body.Close()
-
+	cachedNews = newsResults
+	
 	fmt.Println("Server has started, browse http://localhost:9080 to check out news")
+	
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
 	http.HandleFunc("/", handleRoot)
 	http.ListenAndServe(":9080", nil)
 

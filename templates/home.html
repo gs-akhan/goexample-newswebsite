@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible"
+        content="ie=edge">
+
+    <link rel="stylesheet"
+        href="/static/index.css">
+    <title>News via GoLang</title>
+</head>
+
+<body>
+    <div>
+        <ul>
+            {{- range .Articles }}
+            <li>
+                <img height="100"
+                    width="100"
+                    src="https://img.gs/jzbxndvndh/100x100,2x/{{.UrlToImage}}" />
+                <div class="content" onclick = "openUrl('{{.Url}}')" data-url = "{{.Url}}">
+                    <h3 class="title">{{.Title}}</h3>
+                    <p class="description">{{.Description}}</p>
+                </div>
+            </li>
+            {{- end}}
+        </ul>
+    </div>
+</body>
+
+<script>
+    function openUrl(url) {
+        window.open(url, "_blank");
+    }
+</script>
+</html>
