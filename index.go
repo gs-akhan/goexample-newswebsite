@@ -66,12 +66,20 @@ func main() {
 	resp.Body.Close()
 	cachedNews = newsResults
 	
-	fmt.Println("Server has started, browse http://localhost:9080 to check out news")
+	
 	
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.HandleFunc("/", handleRoot)
-	http.ListenAndServe(os.Getenv("PORT"), nil)
+	port := ""
+	if os.Getenv("PORT") != "" {
+		port = ":"+os.Getenv("PORT")
+	} else {
+		port = ":9080"
+	}
+
+	fmt.Printf("Server has started, browse http://localhost%s to check out news", port)
+	http.ListenAndServe(port, nil)
 
 }
