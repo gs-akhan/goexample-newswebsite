@@ -79,6 +79,8 @@ func main() {
 		port = ":9080"
 	}
 
+	fmt.Println("Hello we are here", port)
+
 	fmt.Printf("Server has started, browse http://localhost%s to check out news", port)
 	http.ListenAndServe(port, nil)
 
