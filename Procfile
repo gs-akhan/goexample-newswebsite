@@ -1,1 +1,1 @@
-web: index
+web: goserver
