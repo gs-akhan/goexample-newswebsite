@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	_ "os"
+	"os"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -72,6 +72,6 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.HandleFunc("/", handleRoot)
-	http.ListenAndServe(":9080", nil)
+	http.ListenAndServe(os.Getenv("PORT"), nil)
 
 }
