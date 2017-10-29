@@ -73,6 +73,7 @@ func main() {
 
 	http.HandleFunc("/", handleRoot)
 	port := ""
+
 	if os.Getenv("PORT") != "" {
 		port = ":"+os.Getenv("PORT")
 	} else {
